@@ -1,7 +1,9 @@
 package hu.unideb.inf.shoppinglist2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,10 @@ public class ItemsActivity extends AppCompatActivity {
         });
     }
 
-    public void hadleItemAdd(View view) {
+    public void handleItemAdd(View view) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("ITEM", ((Button)view).getText().toString() );
+        setResult(RESULT_OK, resultIntent);
         finish();
     }
 }

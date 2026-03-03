@@ -1,5 +1,6 @@
 package hu.unideb.inf.shoppinglist2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void handleAddButtonPressed(View view) {
-
+        Intent intent = new Intent(this, ItemsActivity.class);
+        startActivity(intent);
     }
 }

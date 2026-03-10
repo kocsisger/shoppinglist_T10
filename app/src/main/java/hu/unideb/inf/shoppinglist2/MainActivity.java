@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
              }
      );
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         itemsTextView = findViewById(R.id.itemsTextView);
+        if (savedInstanceState!=null)
+            itemsTextView.setText(savedInstanceState.getString("TEXTVIEW_CONTENT"));
     }
 
     @Override

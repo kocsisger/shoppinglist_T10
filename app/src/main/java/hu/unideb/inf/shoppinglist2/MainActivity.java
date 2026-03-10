@@ -1,6 +1,7 @@
 package hu.unideb.inf.shoppinglist2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,21 +20,23 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-     TextView itemsTextView;
-     ActivityResultLauncher activityResultLauncher = registerForActivityResult(
-             new ActivityResultContracts.StartActivityForResult(),
-             activityResult -> {
-                 Log.d("ITEMS_TEST", "I have returned");
-                 Log.d("ITEMS_TEST", activityResult.getData().getStringExtra("ITEM"));
+    public static final String TEXTVIEW_CONTENT = "TEXTVIEW_CONTENT";
+    TextView itemsTextView;
+    ActivityResultLauncher activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            activityResult -> {
+                Log.d("ITEMS_TEST", "I have returned");
+                Log.d("ITEMS_TEST", activityResult.getData().getStringExtra("ITEM"));
 
-                 if (itemsTextView.getText().toString().equals( getString(R.string.empty_list) ))
+                if (itemsTextView.getText().toString().equals(getString(R.string.empty_list)))
                     itemsTextView.setText("");
 
-                 itemsTextView.append(activityResult.getData().getStringExtra("ITEM") + "\n");
-             }
-     );
+                itemsTextView.append(activityResult.getData().getStringExtra("ITEM") + "\n");
+            }
+    );
 
-
+    SharedPreferences sharedPreferences;
+    String sharedPrefFileName = "shrdprf";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +49,29 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        sharedPreferences = getSharedPreferences(sharedPrefFileName, MODE_PRIVATE);
+
         itemsTextView = findViewById(R.id.itemsTextView);
-        if (savedInstanceState!=null)
-            itemsTextView.setText(savedInstanceState.getString("TEXTVIEW_CONTENT"));
+        if (savedInstanceState != null)
+            itemsTextView.setText(savedInstanceState.getString(TEXTVIEW_CONTENT));
+        else
+            itemsTextView.setText(
+                    sharedPreferences.getString(TEXTVIEW_CONTENT, getString(R.string.empty_list))
+            );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        sharedPreferences.edit()
+                .putString(TEXTVIEW_CONTENT, itemsTextView.getText().toString())
+                .apply();
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("TEXTVIEW_CONTENT",itemsTextView.getText().toString());
+        outState.putString(TEXTVIEW_CONTENT, itemsTextView.getText().toString());
     }
 
     public void handleAddButtonPressed(View view) {

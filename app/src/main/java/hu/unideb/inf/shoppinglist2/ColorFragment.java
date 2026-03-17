@@ -7,10 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 public class ColorFragment extends Fragment {
 
-    private String color = " test";
+    private String color = "";
 
     public String getColor() {
         return color;
@@ -24,7 +25,15 @@ public class ColorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_color, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_color, container, false);
+        RadioGroup rg = rootView.findViewById(R.id.colorRadioGroup);
+        rg.setOnCheckedChangeListener(
+                (radioGroup, checkedId) -> {
+                    if (checkedId == R.id.redRadioButton) color = getString(R.string.red);
+                    else color = getString(R.string.green);
+                }
+        );
+
+        return rootView;
     }
 }

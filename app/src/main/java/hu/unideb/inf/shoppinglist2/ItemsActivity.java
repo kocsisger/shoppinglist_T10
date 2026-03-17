@@ -30,14 +30,15 @@ public class ItemsActivity extends AppCompatActivity {
     public void handleItemAdd(View view) {
         String value = ((Button) view).getText().toString();
 
-        if (value.equals(getString(R.string.apple)))
+        if (value.equals(getString(R.string.apple))) {
             if (colorFragmentIsNotShown) {
                 displayColorFragment();
                 colorFragmentIsNotShown = false;
                 return;
-            }else{
+            } else {
                 value += " " + colorFragment.getColor();
             }
+        }
 
 
         Intent resultIntent = new Intent();

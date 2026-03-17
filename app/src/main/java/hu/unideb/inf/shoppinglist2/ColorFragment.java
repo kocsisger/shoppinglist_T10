@@ -9,6 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class ColorFragment extends Fragment {
+
+    private String color = " test";
+
+    public String getColor() {
+        return color;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
